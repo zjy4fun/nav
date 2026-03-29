@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>zjy4fun 导航站</title>
+<style>
+  /* ===== 基础样式 ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ===== 头部 ===== */
+  .header {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 0.5rem;
+  }
+
+  .header p {
+    color: #8b949e;
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ===== 分类区块 ===== */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+  }
+
+  .section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #8b949e;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #21262d;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ===== 卡片网格 ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  /* ===== 卡片 ===== */
+  .card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .card:hover {
+    border-color: #58a6ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(88, 166, 255, 0.1);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #21262d;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f0f6fc;
+  }
+
+  .card-desc {
+    font-size: 0.85rem;
+    color: #8b949e;
+    line-height: 1.5;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    background: #21262d;
+    border-radius: 99px;
+    color: #8b949e;
+  }
+
+  .card-link {
+    font-size: 0.75rem;
+    color: #58a6ff;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .card:hover .card-link { opacity: 1; }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    color: #484f58;
+    font-size: 0.8rem;
+  }
+
+  .footer a { color: #58a6ff; }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 640px) {
+    .header { padding: 2rem 1rem 1.5rem; }
+    .header h1 { font-size: 1.5rem; }
+    .container { padding: 0 1rem 2rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🧭 zjy4fun 导航站</h1>
+  <p>个人项目合集 · 工具 · 实验</p>
+</div>
+
+<div class="container">
+
+  <!-- ===== AI 工具 ===== -->
+  <div class="section">
+    <div class="section-title">🤖 AI 工具</div>
+    <div class="grid">
+
+      <a class="card" href="https://zjy4fun.github.io/prompt-hub/" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">📋</div>
+          <div class="card-title">Prompt Hub</div>
+        </div>
+        <div class="card-desc">AI Prompt 模板库与优化工具，17 个精选模板 + 纯前端 Prompt 优化器</div>
+        <div class="card-tags">
+          <span class="tag">Prompt</span>
+          <span class="tag">模板</span>
+          <span class="tag">优化器</span>
+        </div>
+        <div class="card-link">zjy4fun.github.io/prompt-hub →</div>
+      </a>
+
+      <a class="card" href="https://zjy4fun.github.io/mindmap-to-prompt/" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">🧠</div>
+          <div class="card-title">MindMap to Prompt</div>
+        </div>
+        <div class="card-desc">思维导图转 AI Prompt，可视化编辑思维导图，一键生成结构化 Prompt</div>
+        <div class="card-tags">
+          <span class="tag">思维导图</span>
+          <span class="tag">Prompt</span>
+          <span class="tag">可视化</span>
+        </div>
+        <div class="card-link">zjy4fun.github.io/mindmap-to-prompt →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/llm-chat" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">💬</div>
+          <div class="card-title">LLM Chat</div>
+        </div>
+        <div class="card-desc">最小可运行的 LLM Chat 全链路 Demo，从前端到后端完整实现</div>
+        <div class="card-tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">LLM</span>
+          <span class="tag">全栈</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/llm-chat →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/langchain-principles-demo" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">🔗</div>
+          <div class="card-title">LangChain 原理演示</div>
+        </div>
+        <div class="card-desc">LangChain 核心概念与原理的 Demo 项目</div>
+        <div class="card-tags">
+          <span class="tag">Python</span>
+          <span class="tag">LangChain</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/langchain-principles-demo →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ===== 效率工具 ===== -->
+  <div class="section">
+    <div class="section-title">⚡ 效率工具</div>
+    <div class="grid">
+
+      <a class="card" href="https://github.com/zjy4fun/polish-macos" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">✨</div>
+          <div class="card-title">Polish macOS</div>
+        </div>
+        <div class="card-desc">macOS 剪贴板文本润色工具，一键生成简化版、优化表述和 commit message</div>
+        <div class="card-tags">
+          <span class="tag">Swift</span>
+          <span class="tag">macOS</span>
+          <span class="tag">AI</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/polish-macos →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/polish-chrome-extension" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">Polish Chrome 扩展</div>
+        </div>
+        <div class="card-desc">Chrome 扩展，用 AI 一键润色选中文本或输入框内容</div>
+        <div class="card-tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">Chrome</span>
+          <span class="tag">扩展</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/polish-chrome-extension →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/json-open" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">📦</div>
+          <div class="card-title">JSON Open</div>
+        </div>
+        <div class="card-desc">终端或文本中快速打开 JSON，可折叠树形视图浏览</div>
+        <div class="card-tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">CLI</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/json-open →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/clawbridge" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">📱</div>
+          <div class="card-title">ClawBridge</div>
+        </div>
+        <div class="card-desc">OpenClaw Mobile Dashboard，随时随地监控 Agent 状态与 Token 消耗</div>
+        <div class="card-tags">
+          <span class="tag">JavaScript</span>
+          <span class="tag">Mobile</span>
+          <span class="tag">OpenClaw</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/clawbridge →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ===== 全栈 & 学习 ===== -->
+  <div class="section">
+    <div class="section-title">🏗️ 全栈 & 学习</div>
+    <div class="grid">
+
+      <a class="card" href="https://github.com/zjy4fun/wasp-todo-app" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">✅</div>
+          <div class="card-title">Wasp Todo App</div>
+        </div>
+        <div class="card-desc">Wasp 全栈框架学习项目，带详细中文注释，含 Docker 部署</div>
+        <div class="card-tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">Wasp</span>
+          <span class="tag">Docker</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/wasp-todo-app →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/react-joyride-onboarding-demo" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">🎯</div>
+          <div class="card-title">React 新手引导 Demo</div>
+        </div>
+        <div class="card-desc">React Joyride 引导式新手教程流程演示</div>
+        <div class="card-tags">
+          <span class="tag">React</span>
+          <span class="tag">JavaScript</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/react-joyride-onboarding-demo →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/expo-ota-update" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">📲</div>
+          <div class="card-title">Expo OTA 热更新</div>
+        </div>
+        <div class="card-desc">Expo OTA 热更新实验项目</div>
+        <div class="card-tags">
+          <span class="tag">React Native</span>
+          <span class="tag">Expo</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/expo-ota-update →</div>
+      </a>
+
+      <a class="card" href="https://github.com/zjy4fun/notes" target="_blank">
+        <div class="card-top">
+          <div class="card-icon">📝</div>
+          <div class="card-title">Notes</div>
+        </div>
+        <div class="card-desc">个人笔记，搜索即用</div>
+        <div class="card-tags">
+          <span class="tag">笔记</span>
+          <span class="tag">知识库</span>
+        </div>
+        <div class="card-link">github.com/zjy4fun/notes →</div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>🤖 由 <a href="https://github.com/openclaw/openclaw" target="_blank">OpenClaw</a> 自动生成</p>
+  <p style="margin-top: 0.3rem;"><a href="https://github.com/zjy4fun" target="_blank">github.com/zjy4fun</a></p>
+</div>
+
+</body>
+</html>
