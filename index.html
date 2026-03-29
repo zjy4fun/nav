@@ -5,18 +5,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>zjy4fun 导航站</title>
 <style>
+  /* ===== 主题变量 ===== */
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-icon: #21262d;
+    --border: #21262d;
+    --border-hover: #58a6ff;
+    --text: #c9d1d9;
+    --text-heading: #f0f6fc;
+    --text-muted: #8b949e;
+    --text-tag: #8b949e;
+    --accent: #58a6ff;
+    --shadow-hover: rgba(88, 166, 255, 0.1);
+    --footer: #484f58;
+  }
+
+  [data-theme="light"] {
+    --bg: #f6f8fa;
+    --bg-card: #ffffff;
+    --bg-icon: #f0f3f6;
+    --border: #d0d7de;
+    --border-hover: #0969da;
+    --text: #1f2328;
+    --text-heading: #1f2328;
+    --text-muted: #656d76;
+    --text-tag: #656d76;
+    --accent: #0969da;
+    --shadow-hover: rgba(9, 105, 218, 0.1);
+    --footer: #8b949e;
+  }
+
   /* ===== 基础样式 ===== */
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0d1117;
-    color: #c9d1d9;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
   }
 
   a { color: inherit; text-decoration: none; }
+
+  /* ===== 主题切换按钮 ===== */
+  .theme-toggle {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    z-index: 100;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
 
   /* ===== 头部 ===== */
   .header {
@@ -27,12 +83,12 @@
   .header h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: #f0f6fc;
+    color: var(--text-heading);
     margin-bottom: 0.5rem;
   }
 
   .header p {
-    color: #8b949e;
+    color: var(--text-muted);
     font-size: 1rem;
     max-width: 500px;
     margin: 0 auto;
@@ -52,10 +108,10 @@
   .section-title {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #8b949e;
+    color: var(--text-muted);
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #21262d;
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -70,8 +126,8 @@
 
   /* ===== 卡片 ===== */
   .card {
-    background: #161b22;
-    border: 1px solid #21262d;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.25rem;
     transition: all 0.2s ease;
@@ -82,9 +138,9 @@
   }
 
   .card:hover {
-    border-color: #58a6ff;
+    border-color: var(--border-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(88, 166, 255, 0.1);
+    box-shadow: 0 4px 20px var(--shadow-hover);
   }
 
   .card-top {
@@ -100,7 +156,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #21262d;
+    background: var(--bg-icon);
     border-radius: 10px;
     flex-shrink: 0;
   }
@@ -108,12 +164,12 @@
   .card-title {
     font-size: 1rem;
     font-weight: 600;
-    color: #f0f6fc;
+    color: var(--text-heading);
   }
 
   .card-desc {
     font-size: 0.85rem;
-    color: #8b949e;
+    color: var(--text-muted);
     line-height: 1.5;
   }
 
@@ -127,14 +183,14 @@
   .tag {
     font-size: 0.7rem;
     padding: 0.15rem 0.5rem;
-    background: #21262d;
+    background: var(--bg-icon);
     border-radius: 99px;
-    color: #8b949e;
+    color: var(--text-tag);
   }
 
   .card-link {
     font-size: 0.75rem;
-    color: #58a6ff;
+    color: var(--accent);
     margin-top: auto;
     padding-top: 0.5rem;
     opacity: 0;
@@ -147,11 +203,11 @@
   .footer {
     text-align: center;
     padding: 2rem 1.5rem 3rem;
-    color: #484f58;
+    color: var(--footer);
     font-size: 0.8rem;
   }
 
-  .footer a { color: #58a6ff; }
+  .footer a { color: var(--accent); }
 
   /* ===== 响应式 ===== */
   @media (max-width: 640px) {
@@ -163,6 +219,8 @@
 </style>
 </head>
 <body>
+
+<button class="theme-toggle" id="themeToggle" title="切换亮/暗模式">🌙</button>
 
 <div class="header">
   <h1>🧭 zjy4fun 导航站</h1>
@@ -364,6 +422,27 @@
   <p>🤖 由 <a href="https://github.com/openclaw/openclaw" target="_blank">OpenClaw</a> 自动生成</p>
   <p style="margin-top: 0.3rem;"><a href="https://github.com/zjy4fun" target="_blank">github.com/zjy4fun</a></p>
 </div>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  // 默认跟随系统，或使用用户上次的选择
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'light' ? '☀️' : '🌙';
+  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.documentElement.setAttribute('data-theme', 'light');
+    toggle.textContent = '☀️';
+  }
+  toggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next === 'dark' ? '' : next);
+    if (next === 'dark') document.documentElement.removeAttribute('data-theme');
+    toggle.textContent = next === 'light' ? '☀️' : '🌙';
+    localStorage.setItem('theme', next);
+  });
+</script>
 
 </body>
 </html>
