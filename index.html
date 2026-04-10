@@ -1,64 +1,106 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>zjy4fun 导航站</title>
+<title>zjy4fun — Projects & Tools</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ===== 主题变量 ===== */
+  /* ===== Theme Variables (OKLCH) ===== */
   :root {
-    --bg: #0d1117;
-    --bg-card: #161b22;
-    --bg-icon: #21262d;
-    --border: #21262d;
-    --border-hover: #58a6ff;
-    --text: #c9d1d9;
-    --text-heading: #f0f6fc;
-    --text-muted: #8b949e;
-    --text-tag: #8b949e;
-    --accent: #58a6ff;
-    --shadow-hover: rgba(88, 166, 255, 0.1);
-    --footer: #484f58;
+    --bg:          oklch(0.145 0.012 65);
+    --bg-card:     oklch(0.19 0.014 65);
+    --bg-icon:     oklch(0.24 0.018 65);
+    --border:      oklch(0.28 0.016 65);
+    --border-hover:oklch(0.72 0.14 65);
+    --text:        oklch(0.82 0.012 65);
+    --text-heading:oklch(0.94 0.006 65);
+    --text-muted:  oklch(0.58 0.02 65);
+    --text-tag:    oklch(0.62 0.025 65);
+    --accent:      oklch(0.72 0.14 65);
+    --accent-dim:  oklch(0.72 0.14 65 / 0.12);
+    --footer:      oklch(0.48 0.015 65);
+
+    --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+    --font-body:    'Figtree', system-ui, sans-serif;
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+    --space-4xl: 96px;
   }
 
   [data-theme="light"] {
-    --bg: #f6f8fa;
-    --bg-card: #ffffff;
-    --bg-icon: #f0f3f6;
-    --border: #d0d7de;
-    --border-hover: #0969da;
-    --text: #1f2328;
-    --text-heading: #1f2328;
-    --text-muted: #656d76;
-    --text-tag: #656d76;
-    --accent: #0969da;
-    --shadow-hover: rgba(9, 105, 218, 0.1);
-    --footer: #8b949e;
+    --bg:          oklch(0.965 0.006 65);
+    --bg-card:     oklch(0.995 0.003 65);
+    --bg-icon:     oklch(0.94 0.01 65);
+    --border:      oklch(0.86 0.012 65);
+    --border-hover:oklch(0.58 0.16 55);
+    --text:        oklch(0.3 0.02 65);
+    --text-heading:oklch(0.18 0.015 65);
+    --text-muted:  oklch(0.5 0.02 65);
+    --text-tag:    oklch(0.48 0.025 65);
+    --accent:      oklch(0.58 0.16 55);
+    --accent-dim:  oklch(0.58 0.16 55 / 0.1);
+    --footer:      oklch(0.6 0.015 65);
   }
 
-  /* ===== 基础样式 ===== */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ===== Reset ===== */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    line-height: 1.6;
-    transition: background 0.3s, color 0.3s;
+    line-height: 1.65;
+    transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-font-smoothing: antialiased;
   }
 
   a { color: inherit; text-decoration: none; }
 
-  /* ===== 主题切换按钮 ===== */
+  /* ===== Staggered Entrance Animation ===== */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-in {
+    opacity: 0;
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-in {
+      opacity: 1;
+      animation: none;
+      transform: none;
+    }
+  }
+
+  /* ===== Theme Toggle ===== */
   .theme-toggle {
     position: fixed;
-    top: 1.25rem;
-    right: 1.25rem;
+    top: var(--space-lg);
+    right: var(--space-lg);
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 10px;
     border: 1px solid var(--border);
     background: var(--bg-card);
     color: var(--text-muted);
@@ -66,82 +108,97 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    transition: all 0.2s;
+    font-size: 1.1rem;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 100;
   }
   .theme-toggle:hover {
     border-color: var(--accent);
     color: var(--accent);
+    transform: scale(1.05);
   }
 
-  /* ===== 头部 ===== */
+  /* ===== Header ===== */
   .header {
-    text-align: center;
-    padding: 3rem 1.5rem 2rem;
+    padding: var(--space-4xl) var(--space-lg) var(--space-2xl);
+    max-width: 960px;
+    margin: 0 auto;
   }
 
   .header h1 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 800;
     color: var(--text-heading);
-    margin-bottom: 0.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-md);
   }
 
   .header p {
     color: var(--text-muted);
-    font-size: 1rem;
-    max-width: 500px;
-    margin: 0 auto;
+    font-size: 1.05rem;
+    max-width: 44ch;
+    line-height: 1.6;
   }
 
-  /* ===== 分类区块 ===== */
+  /* ===== Container ===== */
   .container {
     max-width: 960px;
     margin: 0 auto;
-    padding: 0 1.5rem 3rem;
+    padding: 0 var(--space-lg) var(--space-3xl);
   }
 
+  /* ===== Section ===== */
   .section {
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .section:last-child {
+    margin-bottom: var(--space-2xl);
   }
 
   .section-title {
-    font-size: 1.1rem;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-muted);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-sm);
   }
 
-  /* ===== 卡片网格 ===== */
+  /* ===== Card Grid ===== */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
+    gap: var(--space-md);
   }
 
-  /* ===== 卡片 ===== */
+  /* ===== Cards ===== */
   .card {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 1.25rem;
-    transition: all 0.2s ease;
+    padding: var(--space-lg);
+    transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-sm);
   }
 
   .card:hover {
     border-color: var(--border-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 20px var(--shadow-hover);
+    box-shadow: 0 8px 24px var(--accent-dim);
   }
 
   .card-top {
@@ -151,18 +208,19 @@
   }
 
   .card-icon {
-    font-size: 1.5rem;
-    width: 40px;
-    height: 40px;
+    font-size: 1.3rem;
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--bg-icon);
-    border-radius: 10px;
+    border-radius: 9px;
     flex-shrink: 0;
   }
 
   .card-title {
+    font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-heading);
@@ -171,29 +229,32 @@
   .card-desc {
     font-size: 0.85rem;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.55;
   }
 
   .card-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.25rem;
+    gap: 6px;
+    margin-top: var(--space-xs);
   }
 
   .tag {
-    font-size: 0.7rem;
-    padding: 0.15rem 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 2px 10px;
     background: var(--bg-icon);
     border-radius: 99px;
     color: var(--text-tag);
+    letter-spacing: 0.01em;
   }
 
   .card-link {
     font-size: 0.75rem;
     color: var(--accent);
     margin-top: auto;
-    padding-top: 0.5rem;
+    padding-top: var(--space-sm);
     opacity: 0;
     transition: opacity 0.2s;
   }
@@ -203,36 +264,54 @@
   /* ===== Footer ===== */
   .footer {
     text-align: center;
-    padding: 2rem 1.5rem 3rem;
+    padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
     color: var(--footer);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
   }
 
-  .footer a { color: var(--accent); }
+  .footer a {
+    color: var(--accent);
+    transition: opacity 0.2s;
+  }
+  .footer a:hover { opacity: 0.75; }
 
-  /* ===== 响应式 ===== */
+  .footer-sep {
+    display: inline-block;
+    margin: 0 0.4em;
+    opacity: 0.4;
+  }
+
+  /* ===== Responsive ===== */
   @media (max-width: 640px) {
-    .header { padding: 2rem 1rem 1.5rem; }
-    .header h1 { font-size: 1.5rem; }
-    .container { padding: 0 1rem 2rem; }
+    .header { padding: var(--space-3xl) var(--space-md) var(--space-xl); }
+    .container { padding: 0 var(--space-md) var(--space-2xl); }
     .grid { grid-template-columns: 1fr; }
+    .theme-toggle { top: var(--space-md); right: var(--space-md); }
   }
 </style>
 </head>
 <body>
 
-<button class="theme-toggle" id="themeToggle" title="切换亮/暗模式">🌙</button>
+<button class="theme-toggle" id="themeToggle" title="Toggle light/dark theme">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-moon">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-sun" style="display:none">
+    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+</button>
 
-<div class="header">
-  <h1>🧭 zjy4fun 导航站</h1>
-  <p>个人项目合集 · 工具 · 实验</p>
+<div class="header animate-in" style="animation-delay: 0.05s">
+  <h1>zjy4fun</h1>
+  <p>Projects, tools, and experiments — built for developers who like things that work.</p>
 </div>
 
 <div class="container">
 
-  <!-- ===== AI 工具 ===== -->
-  <div class="section">
-    <div class="section-title">🤖 AI 工具</div>
+  <!-- ===== AI Tools ===== -->
+  <div class="section animate-in" style="animation-delay: 0.12s">
+    <div class="section-title">AI Tools</div>
     <div class="grid">
 
       <a class="card" href="https://zjy4fun.github.io/prompt-hub/" target="_blank">
@@ -240,11 +319,11 @@
           <div class="card-icon">📋</div>
           <div class="card-title">Prompt Hub</div>
         </div>
-        <div class="card-desc">AI Prompt 模板库与优化工具，17 个精选模板 + 纯前端 Prompt 优化器</div>
+        <div class="card-desc">AI prompt template library and optimizer — 17 curated templates with a pure frontend prompt refiner.</div>
         <div class="card-tags">
           <span class="tag">Prompt</span>
-          <span class="tag">模板</span>
-          <span class="tag">优化器</span>
+          <span class="tag">Templates</span>
+          <span class="tag">Optimizer</span>
         </div>
         <div class="card-link">zjy4fun.github.io/prompt-hub →</div>
       </a>
@@ -254,11 +333,11 @@
           <div class="card-icon">🧠</div>
           <div class="card-title">MindMap to Prompt</div>
         </div>
-        <div class="card-desc">思维导图转 AI Prompt，可视化编辑思维导图，一键生成结构化 Prompt</div>
+        <div class="card-desc">Visual mind-map editor that converts diagrams into structured AI prompts with one click.</div>
         <div class="card-tags">
-          <span class="tag">思维导图</span>
+          <span class="tag">Mind Map</span>
           <span class="tag">Prompt</span>
-          <span class="tag">可视化</span>
+          <span class="tag">Visual</span>
         </div>
         <div class="card-link">zjy4fun.github.io/mindmap-to-prompt →</div>
       </a>
@@ -268,11 +347,11 @@
           <div class="card-icon">💬</div>
           <div class="card-title">LLM Chat</div>
         </div>
-        <div class="card-desc">最小可运行的 LLM Chat 全链路 Demo，从前端到后端完整实现</div>
+        <div class="card-desc">Minimal runnable LLM chat demo — full-stack from frontend to backend in one project.</div>
         <div class="card-tags">
           <span class="tag">TypeScript</span>
           <span class="tag">LLM</span>
-          <span class="tag">全栈</span>
+          <span class="tag">Full-Stack</span>
         </div>
         <div class="card-link">github.com/zjy4fun/llm-chat →</div>
       </a>
@@ -280,9 +359,9 @@
       <a class="card" href="https://github.com/zjy4fun/langchain-principles-demo" target="_blank">
         <div class="card-top">
           <div class="card-icon">🔗</div>
-          <div class="card-title">LangChain 原理演示</div>
+          <div class="card-title">LangChain Principles</div>
         </div>
-        <div class="card-desc">LangChain 核心概念与原理的 Demo 项目</div>
+        <div class="card-desc">Hands-on demos of LangChain core concepts and internals.</div>
         <div class="card-tags">
           <span class="tag">Python</span>
           <span class="tag">LangChain</span>
@@ -293,9 +372,9 @@
     </div>
   </div>
 
-  <!-- ===== 效率工具 ===== -->
-  <div class="section">
-    <div class="section-title">⚡ 效率工具</div>
+  <!-- ===== Productivity ===== -->
+  <div class="section animate-in" style="animation-delay: 0.2s">
+    <div class="section-title">Productivity</div>
     <div class="grid">
 
       <a class="card" href="https://github.com/zjy4fun/polish-macos" target="_blank">
@@ -303,7 +382,7 @@
           <div class="card-icon">✨</div>
           <div class="card-title">Polish macOS</div>
         </div>
-        <div class="card-desc">macOS 剪贴板文本润色工具，一键生成简化版、优化表述和 commit message</div>
+        <div class="card-desc">Clipboard text polisher for macOS — one click to simplify, rephrase, or generate commit messages.</div>
         <div class="card-tags">
           <span class="tag">Swift</span>
           <span class="tag">macOS</span>
@@ -315,13 +394,13 @@
       <a class="card" href="https://github.com/zjy4fun/polish-chrome-extension" target="_blank">
         <div class="card-top">
           <div class="card-icon">🌐</div>
-          <div class="card-title">Polish Chrome 扩展</div>
+          <div class="card-title">Polish Chrome Extension</div>
         </div>
-        <div class="card-desc">Chrome 扩展，用 AI 一键润色选中文本或输入框内容</div>
+        <div class="card-desc">Chrome extension that uses AI to polish selected text or input field content in one click.</div>
         <div class="card-tags">
           <span class="tag">TypeScript</span>
           <span class="tag">Chrome</span>
-          <span class="tag">扩展</span>
+          <span class="tag">Extension</span>
         </div>
         <div class="card-link">github.com/zjy4fun/polish-chrome-extension →</div>
       </a>
@@ -331,10 +410,10 @@
           <div class="card-icon">📦</div>
           <div class="card-title">JSON Open</div>
         </div>
-        <div class="card-desc">在线 JSON 查看器，可折叠树形视图，支持从终端或文本快速打开</div>
+        <div class="card-desc">Online JSON viewer with collapsible tree view — quick-open from terminal or clipboard.</div>
         <div class="card-tags">
           <span class="tag">JavaScript</span>
-          <span class="tag">在线工具</span>
+          <span class="tag">Web Tool</span>
           <span class="tag">JSON</span>
         </div>
         <div class="card-link">zjy4fun.github.io/json-open →</div>
@@ -345,7 +424,7 @@
           <div class="card-icon">📱</div>
           <div class="card-title">ClawBridge</div>
         </div>
-        <div class="card-desc">OpenClaw Mobile Dashboard，随时随地监控 Agent 状态与 Token 消耗</div>
+        <div class="card-desc">OpenClaw mobile dashboard — monitor agent status and token usage on the go.</div>
         <div class="card-tags">
           <span class="tag">JavaScript</span>
           <span class="tag">Mobile</span>
@@ -359,7 +438,7 @@
           <div class="card-icon">🛠</div>
           <div class="card-title">DevHub</div>
         </div>
-        <div class="card-desc">开发环境配置管理 TUI，一个命令管理 Git、SSH、环境变量、Node.js 和常用工具</div>
+        <div class="card-desc">Dev environment config TUI — manage Git, SSH, env vars, Node.js, and common tools in one command.</div>
         <div class="card-tags">
           <span class="tag">TypeScript</span>
           <span class="tag">TUI</span>
@@ -371,9 +450,9 @@
     </div>
   </div>
 
-  <!-- ===== 全栈 & 学习 ===== -->
-  <div class="section">
-    <div class="section-title">🏗️ 全栈 & 学习</div>
+  <!-- ===== Full-Stack & Learning ===== -->
+  <div class="section animate-in" style="animation-delay: 0.28s">
+    <div class="section-title">Full-Stack & Learning</div>
     <div class="grid">
 
       <a class="card" href="https://github.com/zjy4fun/wasp-todo-app" target="_blank">
@@ -381,7 +460,7 @@
           <div class="card-icon">✅</div>
           <div class="card-title">Wasp Todo App</div>
         </div>
-        <div class="card-desc">Wasp 全栈框架学习项目，带详细中文注释，含 Docker 部署</div>
+        <div class="card-desc">Full-stack learning project using the Wasp framework, with annotated source and Docker deployment.</div>
         <div class="card-tags">
           <span class="tag">TypeScript</span>
           <span class="tag">Wasp</span>
@@ -393,9 +472,9 @@
       <a class="card" href="https://github.com/zjy4fun/react-joyride-onboarding-demo" target="_blank">
         <div class="card-top">
           <div class="card-icon">🎯</div>
-          <div class="card-title">React 新手引导 Demo</div>
+          <div class="card-title">React Onboarding Demo</div>
         </div>
-        <div class="card-desc">React Joyride 引导式新手教程流程演示</div>
+        <div class="card-desc">Guided onboarding flow demo built with React Joyride.</div>
         <div class="card-tags">
           <span class="tag">React</span>
           <span class="tag">JavaScript</span>
@@ -406,9 +485,9 @@
       <a class="card" href="https://github.com/zjy4fun/expo-ota-update" target="_blank">
         <div class="card-top">
           <div class="card-icon">📲</div>
-          <div class="card-title">Expo OTA 热更新</div>
+          <div class="card-title">Expo OTA Update</div>
         </div>
-        <div class="card-desc">Expo OTA 热更新实验项目</div>
+        <div class="card-desc">Experimental project exploring Expo over-the-air updates.</div>
         <div class="card-tags">
           <span class="tag">React Native</span>
           <span class="tag">Expo</span>
@@ -421,10 +500,10 @@
           <div class="card-icon">📝</div>
           <div class="card-title">Notes</div>
         </div>
-        <div class="card-desc">个人笔记，搜索即用</div>
+        <div class="card-desc">Personal knowledge base — search and use instantly.</div>
         <div class="card-tags">
-          <span class="tag">笔记</span>
-          <span class="tag">知识库</span>
+          <span class="tag">Notes</span>
+          <span class="tag">Knowledge Base</span>
         </div>
         <div class="card-link">github.com/zjy4fun/notes →</div>
       </a>
@@ -434,28 +513,47 @@
 
 </div>
 
-<div class="footer">
-  <p>🤖 由 <a href="https://github.com/openclaw/openclaw" target="_blank">OpenClaw</a> 自动生成</p>
-  <p style="margin-top: 0.3rem;"><a href="https://github.com/zjy4fun" target="_blank">github.com/zjy4fun</a></p>
+<div class="footer animate-in" style="animation-delay: 0.35s">
+  <p>
+    Built by <a href="https://github.com/zjy4fun" target="_blank">zjy4fun</a>
+    <span class="footer-sep">·</span>
+    Scaffolded with <a href="https://github.com/openclaw/openclaw" target="_blank">OpenClaw</a>
+  </p>
 </div>
 
 <script>
   const toggle = document.getElementById('themeToggle');
+  const iconMoon = toggle.querySelector('.icon-moon');
+  const iconSun = toggle.querySelector('.icon-sun');
+
+  function setThemeIcon(theme) {
+    if (theme === 'light') {
+      iconMoon.style.display = 'none';
+      iconSun.style.display = 'block';
+    } else {
+      iconMoon.style.display = 'block';
+      iconSun.style.display = 'none';
+    }
+  }
+
   const saved = localStorage.getItem('theme');
-  // 默认跟随系统，或使用用户上次的选择
   if (saved) {
-    document.documentElement.setAttribute('data-theme', saved);
-    toggle.textContent = saved === 'light' ? '☀️' : '🌙';
+    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    setThemeIcon(saved);
   } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
     document.documentElement.setAttribute('data-theme', 'light');
-    toggle.textContent = '☀️';
+    setThemeIcon('light');
   }
+
   toggle.addEventListener('click', () => {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next === 'dark' ? '' : next);
-    if (next === 'dark') document.documentElement.removeAttribute('data-theme');
-    toggle.textContent = next === 'light' ? '☀️' : '🌙';
+    if (next === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+    } else {
+      document.documentElement.setAttribute('data-theme', next);
+    }
+    setThemeIcon(next);
     localStorage.setItem('theme', next);
   });
 </script>
